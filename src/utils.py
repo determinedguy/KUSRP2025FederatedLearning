@@ -38,12 +38,12 @@ def get_dataset(args):
         # Sample Non-IID user data from Mnist
         if args.unequal:
             # Chose uneuqal splits for every user
-            #user_groups = mnist_noniid_unequal(train_dataset, args.num_users)
-            user_groups = mnist_noniid_unequal(train_dataset, 10)
+            user_groups = mnist_noniid_unequal(train_dataset, args.num_users)
+            #user_groups = mnist_noniid_unequal(train_dataset, 10)
         else:
             # Chose euqal splits for every user
-            # user_groups = mnist_noniid(train_dataset, args.num_users)
-            user_groups = mnist_noniid(train_dataset, 10)
+            user_groups = mnist_noniid(train_dataset, args.num_users)
+            #user_groups = mnist_noniid(train_dataset, 10)
 
     return train_dataset, test_dataset, user_groups
 
