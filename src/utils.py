@@ -11,8 +11,8 @@ def get_dataset(args):
     the keys are the user index and the values are the corresponding data for
     each of those users.
     """
-    train_dir = '/data/train/'
-    test_dir = '/data/test/'
+    train_dir = 'data/train/'
+    test_dir = 'data/test/'
 
     apply_transform = transforms.Compose([
             transforms.ToTensor(),
