@@ -23,15 +23,17 @@ if __name__ == '__main__':
     start_time = time.time()
 
     # define paths
-    path_project = os.path.abspath('..')
-    logger = SummaryWriter('../logs')
+    path_project = os.path.abspath('.')
+    logger = SummaryWriter('logs')
 
     args = args_parser()
     exp_details(args)
 
-    if args.gpu_id:
-        torch.cuda.set_device(args.gpu_id)
-    device = 'cuda' if args.gpu else 'cpu'
+    #if args.gpu_id:
+    #    torch.cuda.set_device(args.gpu_id)
+    # device = 'cuda' if args.gpu else 'cpu'
+    device = 'cpu'
+
 
     # load dataset and user groups
     train_dataset, test_dataset, user_groups = get_dataset(args)
@@ -60,9 +62,15 @@ if __name__ == '__main__':
 
         global_model.train()
         m = max(int(args.frac * args.num_users), 1)
-        idxs_users = np.random.choice(range(args.num_users), m, replace=False)
+        #idxs_users = np.random.choice(range(args.num_users), m, replace=False)
+        idxs_users = np.random.choice(list(user_groups.keys()), m, replace=False)
+        
+       
 
         for idx in idxs_users:
+             # Add these lines before the line causing the error
+            print("user_groups keys:", user_groups.keys())
+            print("idx:", idx)
             local_model = LocalUpdate(args=args, dataset=train_dataset,
                                       idxs=user_groups[idx], logger=logger)
             w, loss = local_model.update_weights(
@@ -104,7 +112,7 @@ if __name__ == '__main__':
     print("|---- Test Accuracy: {:.2f}%".format(100*test_acc))
 
     # Saving the objects train_loss and train_accuracy:
-    file_name = '../save/objects/{}_{}_{}_C[{}]_iid[{}]_E[{}]_B[{}].pkl'.\
+    file_name = 'save/objects/{}_{}_{}_C[{}]_iid[{}]_E[{}]_B[{}].pkl'.\
         format(args.dataset, args.model, args.epochs, args.frac, args.iid,
                args.local_ep, args.local_bs)
 
