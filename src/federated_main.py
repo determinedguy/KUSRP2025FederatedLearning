@@ -1,8 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# Python version: 3.6
-
-
 import os
 import copy
 import time
@@ -31,11 +26,9 @@ if __name__ == '__main__':
     args = args_parser()
     exp_details(args)
 
-
     #args = args_parser()
     #args.iid = 0  # Set to Non-IID 
     #exp_details(args)
-    # ...existing code...
 
     #if args.gpu_id:
     #    torch.cuda.set_device(args.gpu_id)

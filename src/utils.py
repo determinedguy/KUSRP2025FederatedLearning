@@ -24,7 +24,6 @@ def get_dataset(args):
     test_dataset = datasets.MNIST(test_dir, train=False, download=True,
                                     transform=apply_transform)
 
-    # Veri setinin boyutunu kontrol etme
     # To chechk the size of the dataset
     print(f"Train dataset size: {len(train_dataset)}")
     print(f"Test dataset size: {len(test_dataset)}")
@@ -74,10 +73,3 @@ def exp_details(args):
     print(f'    Local Batch size   : {args.local_bs}')
     print(f'    Local Epochs       : {args.local_ep}\n')
     return
-
-
-# class Args:
-#     iid = True
-
-# args = Args()
-# train_dataset, test_dataset, _ = get_dataset(args)
