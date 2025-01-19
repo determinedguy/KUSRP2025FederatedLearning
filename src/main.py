@@ -13,9 +13,13 @@ from model import CNN
 
 if __name__ == '__main__':
     args = args_parser()
+
     if args.gpu:
         torch.cuda.set_device(args.gpu)
     device = 'cuda' if args.gpu else 'cpu'
+
+    # Set the number of rounds for training
+    args.epochs = 10
 
     # load datasets
     train_dataset, test_dataset, _ = get_dataset(args)
