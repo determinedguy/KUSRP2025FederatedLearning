@@ -100,3 +100,23 @@ if __name__ == '__main__':
         log_file.write("*"*10 + "Test Results" + "*"*10 + '\n')
         log_file.write('Test on {} samples\n'.format(len(test_dataset)))
         log_file.write("Test Accuracy: {:.2f}%\n".format(100*test_acc))
+
+    # Save the model
+    model_path = 'save/models/main_model_{}_{}_{}.pth'.format(
+    args.dataset, args.model, args.epochs)
+
+    # Ensure the directory exists
+    os.makedirs(os.path.dirname(model_path), exist_ok=True)
+
+    # Save the model
+    torch.save(global_model.state_dict(), model_path)
+
+    print(f'Model successfully saved to {model_path}')
+
+    # load the model
+    # model_path = 'save/models/main_model_{}_{}_{}.pth'.format(
+    #     args.dataset, args.model, args.epochs)
+
+    # global_model.load_state_dict(torch.load(model_path))
+    # global_model.to(device)
+    # print(f'Model loaded from {model_path}')
