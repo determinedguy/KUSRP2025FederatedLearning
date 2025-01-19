@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
 
     #args = args_parser()
-    #args.iid = 0  # Non-IID olarak ayarlayın
+    #args.iid = 0  # Set to Non-IID 
     #exp_details(args)
     # ...existing code...
 
@@ -81,8 +81,8 @@ if __name__ == '__main__':
 
             global_model.train()
             m = max(int(args.frac * args.num_users), 1)
-            #idxs_users = np.random.choice(range(args.num_users), m, replace=False)
-            idxs_users = np.random.choice(list(user_groups.keys()), m, replace=False)
+            idxs_users = np.random.choice(range(args.num_users), m, replace=False)
+            #idxs_users = np.random.choice(list(user_groups.keys()), m, replace=False)
             
             for idx in idxs_users:
                 # Add these lines before the line causing the error
