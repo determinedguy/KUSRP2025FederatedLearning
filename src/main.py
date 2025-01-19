@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 
 import torch
 from torch.utils.data import DataLoader
+import os
 
 from utils import get_dataset
 from options import args_parser
@@ -46,37 +47,56 @@ if __name__ == '__main__':
     criterion = torch.nn.NLLLoss().to(device)
     epoch_loss = []
 
-    for epoch in tqdm(range(args.epochs)):
-        batch_loss = []
+    # Define the path for the log file
+    log_file_path = 'save/main_training_log.txt'
 
-        for batch_idx, (images, labels) in enumerate(trainloader):
-            images, labels = images.to(device), labels.to(device)
+    # Ensure the directory exists
+    os.makedirs(os.path.dirname(log_file_path), exist_ok=True)
 
-            optimizer.zero_grad()
-            outputs = global_model(images)
-            loss = criterion(outputs, labels)
-            loss.backward()
-            optimizer.step()
+    # Open the log file in write mode
+    with open(log_file_path, 'w') as log_file:
 
-            if batch_idx % 50 == 0:
-                print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
-                    epoch+1, batch_idx * len(images), len(trainloader.dataset),
-                    100. * batch_idx / len(trainloader), loss.item()))
-            batch_loss.append(loss.item())
+        # Training loop
+        for epoch in tqdm(range(args.epochs)):
+            batch_loss = []
 
-        loss_avg = sum(batch_loss)/len(batch_loss)
-        print('\nTrain loss:', loss_avg)
-        epoch_loss.append(loss_avg)
+            for batch_idx, (images, labels) in enumerate(trainloader):
+                images, labels = images.to(device), labels.to(device)
 
-    # Plot loss
-    plt.figure()
-    plt.plot(range(len(epoch_loss)), epoch_loss)
-    plt.xlabel('epochs')
-    plt.ylabel('Train loss')
-    plt.savefig('save/nn_{}_{}_{}.png'.format(args.dataset, args.model,
-                                                 args.epochs))
+                optimizer.zero_grad()
+                outputs = global_model(images)
+                loss = criterion(outputs, labels)
+                loss.backward()
+                optimizer.step()
 
-    # testing
-    test_acc, test_loss = test_inference(args, global_model, test_dataset)
-    print('Test on', len(test_dataset), 'samples')
-    print("Test Accuracy: {:.2f}%".format(100*test_acc))
+                if batch_idx % 50 == 0:
+                    log_message = 'Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
+                        epoch+1, batch_idx * len(images), len(trainloader.dataset),
+                        100. * batch_idx / len(trainloader), loss.item())
+                    print(log_message)
+                    log_file.write(log_message + '\n')
+                batch_loss.append(loss.item())
+
+            loss_avg = sum(batch_loss)/len(batch_loss)
+            print('\nTrain loss:', loss_avg)
+            log_file.write('\nTrain loss: {}\n'.format(loss_avg))
+            epoch_loss.append(loss_avg)
+
+        # Plot loss
+        plt.figure()
+        plt.plot(range(len(epoch_loss)), epoch_loss)
+        plt.xlabel('epochs')
+        plt.ylabel('Train loss')
+        plt.savefig('save/nn_{}_{}_{}.png'.format(args.dataset, args.model,
+                                                    args.epochs))
+
+        # testing
+        test_acc, test_loss = test_inference(args, global_model, test_dataset)
+        print("*"*20)
+        print("*"*10, "Test Results", "*"*10)
+        print('Test on', len(test_dataset), 'samples')
+        print("Test Accuracy: {:.2f}%".format(100*test_acc))
+        log_file.write("*"*20 + '\n')
+        log_file.write("*"*10 + "Test Results" + "*"*10 + '\n')
+        log_file.write('Test on {} samples\n'.format(len(test_dataset)))
+        log_file.write("Test Accuracy: {:.2f}%\n".format(100*test_acc))
