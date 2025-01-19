@@ -169,3 +169,26 @@ if __name__ == '__main__':
     plt.savefig('save/fed_{}_{}_{}_C[{}]_iid[{}]_E[{}]_B[{}]_acc.png'.
                 format(args.dataset, args.model, args.epochs, args.frac,
                        args.iid, args.local_ep, args.local_bs))
+
+
+    # Save the model
+    model_path = 'save/models/fl_model_{}_{}_{}_C[{}]_iid[{}]_E[{}]_B[{}].pth'.format(
+    args.dataset, args.model, args.epochs, args.frac, args.iid,
+    args.local_ep, args.local_bs)
+
+    # Ensure the directory exists
+    os.makedirs(os.path.dirname(model_path), exist_ok=True)
+
+    # Save the model
+    torch.save(global_model.state_dict(), model_path)
+
+    print(f'Model successfully saved to {model_path}')
+   
+    # load the model
+    # model_path = 'save/models/fl_model_{}_{}_{}_C[{}]_iid[{}]_E[{}]_B[{}].pth'.format(
+    #     args.dataset, args.model, args.epochs, args.frac, args.iid,
+    #     args.local_ep, args.local_bs)
+
+    # global_model.load_state_dict(torch.load(model_path))
+    # global_model.to(device)
+    # print(f'Model loaded from {model_path}')
