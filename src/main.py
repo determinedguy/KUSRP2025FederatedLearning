@@ -92,11 +92,11 @@ if __name__ == '__main__':
 
         # testing
         test_acc, test_loss = test_inference(args, global_model, test_dataset)
-        print("*"*20)
+        print("*"*32)
         print("*"*10, "Test Results", "*"*10)
         print('Test on', len(test_dataset), 'samples')
         print("Test Accuracy: {:.2f}%".format(100*test_acc))
-        log_file.write("*"*20 + '\n')
+        log_file.write("*"*32 + '\n')
         log_file.write("*"*10 + "Test Results" + "*"*10 + '\n')
         log_file.write('Test on {} samples\n'.format(len(test_dataset)))
         log_file.write("Test Accuracy: {:.2f}%\n".format(100*test_acc))
