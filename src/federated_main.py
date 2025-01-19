@@ -26,6 +26,11 @@ if __name__ == '__main__':
     args = args_parser()
     exp_details(args)
 
+    # Set to non-IID
+    args.iid = 0
+    # Set the number of users
+    args.num_users = 5
+
     #args = args_parser()
     #args.iid = 0  # Set to Non-IID 
     #exp_details(args)
