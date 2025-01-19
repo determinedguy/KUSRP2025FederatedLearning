@@ -31,6 +31,12 @@ if __name__ == '__main__':
     args = args_parser()
     exp_details(args)
 
+
+    #args = args_parser()
+    #args.iid = 0  # Non-IID olarak ayarlayın
+    #exp_details(args)
+    # ...existing code...
+
     #if args.gpu_id:
     #    torch.cuda.set_device(args.gpu_id)
     # device = 'cuda' if args.gpu else 'cpu'
@@ -55,7 +61,7 @@ if __name__ == '__main__':
     train_loss, train_accuracy = [], []
     val_acc_list, net_list = [], []
     cv_loss, cv_acc = [], []
-    print_every = 2
+    print_every = 1
     val_loss_pre, counter = 0, 0
 
     for epoch in tqdm(range(args.epochs)):
@@ -70,7 +76,7 @@ if __name__ == '__main__':
        
 
         for idx in idxs_users:
-             # Add these lines before the line causing the error
+            # Add these lines before the line causing the error
             print("user_groups keys:", user_groups.keys())
             print("idx:", idx)
             local_model = LocalUpdate(args=args, dataset=train_dataset,
