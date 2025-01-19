@@ -76,8 +76,8 @@ def exp_details(args):
     return
 
 
-class Args:
-    iid = True
+# class Args:
+#     iid = True
 
-args = Args()
-train_dataset, test_dataset, _ = get_dataset(args)
+# args = Args()
+# train_dataset, test_dataset, _ = get_dataset(args)
