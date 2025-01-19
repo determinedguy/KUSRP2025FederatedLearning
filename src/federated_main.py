@@ -26,6 +26,13 @@ if __name__ == '__main__':
     args = args_parser()
     exp_details(args)
 
+    # Set to non-IID
+    args.iid = 0
+    # Set to unequal data splits
+    args.unequal = 1
+    # Set the number of users
+    args.num_users = 100
+
     #args = args_parser()
     #args.iid = 0  # Set to Non-IID 
     #exp_details(args)
@@ -74,8 +81,8 @@ if __name__ == '__main__':
 
             global_model.train()
             m = max(int(args.frac * args.num_users), 1)
-            idxs_users = np.random.choice(range(args.num_users), m, replace=False)
-            #idxs_users = np.random.choice(list(user_groups.keys()), m, replace=False)
+            #idxs_users = np.random.choice(range(args.num_users), m, replace=False)
+            idxs_users = np.random.choice(list(user_groups.keys()), m, replace=False)
             
             for idx in idxs_users:
                 # Add these lines before the line causing the error
