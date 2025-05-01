@@ -16,7 +16,6 @@ from torch import optim
 
 from model import get_model
 from utils import get_dataset
-from options import args
 
 
 if __name__ == '__main__':
@@ -28,6 +27,8 @@ if __name__ == '__main__':
     # load datasets
     train_dataset, test_dataset, num_classes = get_dataset(args.dataset_path, image_size=(224, 224))
 
+
+    args.num_classes = num_classes
     # BUILD MODEL
     global_model = get_model(args.model, num_classes=num_classes)
 
