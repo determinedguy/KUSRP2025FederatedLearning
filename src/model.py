@@ -1,5 +1,7 @@
 from torch import nn
 import torch.nn.functional as F
+import torch.nn as nn
+import torchvision.models as models
 
 class CNN(nn.Module):
     def __init__(self, args):
@@ -18,3 +20,32 @@ class CNN(nn.Module):
         x = F.dropout(x, training=self.training)
         x = self.fc2(x)
         return F.log_softmax(x, dim=1)
+    
+def get_model(model_name, num_classes):
+    """
+    Returns a model instance based on the model name.
+    Supports fine-tuning for pretrained models.
+
+    Args:
+        model_name (str): One of ['cnn', 'resnet18', 'resnet50', 'mobilenet_v2']
+        num_classes (int): Number of output classes
+
+    Returns:
+        nn.Module: the model
+    """
+    if model_name == 'cnn':
+        return CNN(num_classes)  # mevcut basit CNN modelin
+    elif model_name == 'resnet18':
+        model = models.resnet18(pretrained=True)
+        model.fc = nn.Linear(model.fc.in_features, num_classes)
+        return model
+    elif model_name == 'resnet50':
+        model = models.resnet50(pretrained=True)
+        model.fc = nn.Linear(model.fc.in_features, num_classes)
+        return model
+    elif model_name == 'mobilenet_v2':
+        model = models.mobilenet_v2(pretrained=True)
+        model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
+        return model
+    else:
+        raise NotImplementedError(f"Model '{model_name}' is not supported.")
