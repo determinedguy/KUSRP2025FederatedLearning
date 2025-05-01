@@ -10,6 +10,14 @@ from options import args_parser
 from update import test_inference
 from model import CNN
 
+import argparse
+from torch import nn
+from torch import optim
+
+from model import get_model
+from utils import get_dataset
+from options import args
+
 
 if __name__ == '__main__':
     args = args_parser()
@@ -18,10 +26,10 @@ if __name__ == '__main__':
     device = 'cuda' if args.gpu else 'cpu'
 
     # load datasets
-    train_dataset, test_dataset, _ = get_dataset(args)
+    train_dataset, test_dataset, num_classes = get_dataset(args.dataset_path, image_size=(224, 224))
 
     # BUILD MODEL
-    global_model = CNN(args=args)
+    global_model = get_model(args.model, num_classes=num_classes)
 
     # Set the model to train and send it to device.
     global_model.to(device)

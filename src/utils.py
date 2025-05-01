@@ -3,9 +3,11 @@ import copy
 import torch
 from torchvision import datasets, transforms
 from sampling import mnist_iid, mnist_noniid, mnist_noniid_unequal
+import os
 
 
-def get_dataset(args):
+
+'''def get_dataset(args):
     """ Returns train and test datasets and a user group which is a dict where
     the keys are the user index and the values are the corresponding data for
     each of those users.
@@ -44,6 +46,49 @@ def get_dataset(args):
             #user_groups = mnist_noniid(train_dataset, 10)
 
     return train_dataset, test_dataset, user_groups
+'''
+
+def get_dataset(dataset_path, image_size=(224, 224)):
+    """
+    Loads train and test datasets from a directory structure like:
+    dataset_path/
+        train/
+            class1/
+            class2/
+            ...
+        test/
+            class1/
+            class2/
+            ...
+    
+    Args:
+        dataset_path (str): Root path to dataset (should contain 'train' and 'test' folders).
+        image_size (tuple): Desired image size (default is 224x224 for pretrained models).
+    
+    Returns:
+        train_dataset, test_dataset, num_classes
+    """
+    train_dir = os.path.join(dataset_path, 'train')
+    test_dir = os.path.join(dataset_path, 'test')
+
+    # Transform: normalize to ImageNet statistics (standard for pretrained models)
+    transform = transforms.Compose([
+        transforms.Resize(image_size),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                             std=[0.229, 0.224, 0.225])
+    ])
+
+    train_dataset = datasets.ImageFolder(root=train_dir, transform=transform)
+    test_dataset = datasets.ImageFolder(root=test_dir, transform=transform)
+
+    num_classes = len(train_dataset.classes)
+    print(f"Loaded dataset from: {dataset_path}")
+    print(f" - Number of classes: {num_classes}")
+    print(f" - Training samples: {len(train_dataset)}")
+    print(f" - Test samples: {len(test_dataset)}")
+
+    return train_dataset, test_dataset, num_classes
 
 def average_weights(w):
     """
