@@ -21,7 +21,11 @@ def args_parser():
                         help='SGD momentum (default: 0.5)')
 
     # model arguments
-    parser.add_argument('--model', type=str, default='mlp', help='model name')
+    #parser.add_argument('--model', type=str, default='mlp', help='model name')
+    # New Line
+    parser.add_argument('--model', type=str, default='cnn',
+                    choices=['cnn', 'resnet18', 'resnet50', 'mobilenet_v2'],
+                    help='Model name')
     parser.add_argument('--kernel_num', type=int, default=9,
                         help='number of each kind of kernel')
     parser.add_argument('--kernel_sizes', type=str, default='3,4,5',
@@ -47,6 +51,9 @@ def args_parser():
                         to a specific GPU ID. Default set to use CPU.")
     parser.add_argument('--optimizer', type=str, default='sgd', help="type \
                         of optimizer")
+    
+    # New arguments
+    parser.add_argument('--dataset_path', type=str, default='data', help='Root dataset directory with train/ and test/')
     
     ### Important arguments for Experiment !!!!
     parser.add_argument('--iid', type=int, default=1,
