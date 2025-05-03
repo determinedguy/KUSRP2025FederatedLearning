@@ -47,6 +47,7 @@ from options import args_parser
             #user_groups = mnist_noniid(train_dataset, 10)
 
     return train_dataset, test_dataset, user_groups
+    
 '''
 
 def get_dataset(dataset_path, image_size=(224, 224)):

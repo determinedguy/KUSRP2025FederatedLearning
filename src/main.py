@@ -17,12 +17,20 @@ from torch import optim
 from model import get_model
 from utils import get_dataset
 
+import time
+
 
 if __name__ == '__main__':
     args = args_parser()
-    if args.gpu:
+    if args.gpu is not None:
+        print('visible gpus:', args.gpu)
+        os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu)
+        print('GPU is running:' ,os.environ['CUDA_VISIBLE_DEVICES'])
         torch.cuda.set_device(args.gpu)
-    device = 'cuda' if args.gpu else 'cpu'
+        device = 'cuda'
+    else:
+        device = 'cpu'
+   #device = 'cuda' if args.gpu else 'cpu'
 
     # load datasets
     train_dataset, test_dataset, num_classes = get_dataset(args.dataset_path, image_size=(224, 224))
@@ -47,7 +55,7 @@ if __name__ == '__main__':
                                      weight_decay=1e-4)
 
     trainloader = DataLoader(train_dataset, batch_size=64, shuffle=True)
-    criterion = torch.nn.NLLLoss().to(device)
+    criterion = nn.CrossEntropyLoss().to(device)
     epoch_loss = []
 
     # Define the path for the log file
@@ -58,6 +66,8 @@ if __name__ == '__main__':
 
     # Open the log file in write mode
     with open(log_file_path, 'w') as log_file:
+
+        start_time = time.time()  # <--- Beggining of the train
 
         # Training loop
         for epoch in tqdm(range(args.epochs)):
@@ -103,6 +113,15 @@ if __name__ == '__main__':
         log_file.write("*"*10 + "Test Results" + "*"*10 + '\n')
         log_file.write('Test on {} samples\n'.format(len(test_dataset)))
         log_file.write("Test Accuracy: {:.2f}%\n".format(100*test_acc))
+
+
+        end_time = time.time()  # <--- End of the train and testing
+        total_time = end_time - start_time
+        minutes, seconds = divmod(total_time, 60)
+
+        # Log the total training time
+        print(f"\nTotal training time: {int(minutes)}m {int(seconds)}s")
+        log_file.write(f"\nTotal training time: {int(minutes)}m {int(seconds)}s\n")
 
     # Save the model
     model_path = 'save/models/main_model_{}_{}_{}.pth'.format(
