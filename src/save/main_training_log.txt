@@ -1,0 +1,57 @@
+Train Epoch: 1 [0/45385 (0%)]	Loss: 2.235589
+Train Epoch: 1 [3200/45385 (7%)]	Loss: 1.187041
+Train Epoch: 1 [6400/45385 (14%)]	Loss: 0.817814
+Train Epoch: 1 [9600/45385 (21%)]	Loss: 0.753237
+Train Epoch: 1 [12800/45385 (28%)]	Loss: 0.802294
+Train Epoch: 1 [16000/45385 (35%)]	Loss: 0.945366
+Train Epoch: 1 [19200/45385 (42%)]	Loss: 0.852868
+Train Epoch: 1 [22400/45385 (49%)]	Loss: 0.633146
+Train Epoch: 1 [25600/45385 (56%)]	Loss: 0.906630
+Train Epoch: 1 [28800/45385 (63%)]	Loss: 1.068396
+Train Epoch: 1 [32000/45385 (70%)]	Loss: 0.600531
+Train Epoch: 1 [35200/45385 (77%)]	Loss: 0.664542
+Train Epoch: 1 [38400/45385 (85%)]	Loss: 0.952143
+Train Epoch: 1 [41600/45385 (92%)]	Loss: 0.854936
+Train Epoch: 1 [44800/45385 (99%)]	Loss: 0.510556
+
+Train loss: 0.838297560517217
+Train Epoch: 2 [0/45385 (0%)]	Loss: 0.686276
+Train Epoch: 2 [3200/45385 (7%)]	Loss: 0.659324
+Train Epoch: 2 [6400/45385 (14%)]	Loss: 0.552963
+Train Epoch: 2 [9600/45385 (21%)]	Loss: 0.670905
+Train Epoch: 2 [12800/45385 (28%)]	Loss: 0.827375
+Train Epoch: 2 [16000/45385 (35%)]	Loss: 0.653798
+Train Epoch: 2 [19200/45385 (42%)]	Loss: 0.665398
+Train Epoch: 2 [22400/45385 (49%)]	Loss: 0.506417
+Train Epoch: 2 [25600/45385 (56%)]	Loss: 0.659869
+Train Epoch: 2 [28800/45385 (63%)]	Loss: 0.418816
+Train Epoch: 2 [32000/45385 (70%)]	Loss: 0.693327
+Train Epoch: 2 [35200/45385 (77%)]	Loss: 0.377615
+Train Epoch: 2 [38400/45385 (85%)]	Loss: 0.616201
+Train Epoch: 2 [41600/45385 (92%)]	Loss: 0.389216
+Train Epoch: 2 [44800/45385 (99%)]	Loss: 0.660767
+
+Train loss: 0.5941918768093619
+Train Epoch: 3 [0/45385 (0%)]	Loss: 0.320311
+Train Epoch: 3 [3200/45385 (7%)]	Loss: 0.535753
+Train Epoch: 3 [6400/45385 (14%)]	Loss: 0.401888
+Train Epoch: 3 [9600/45385 (21%)]	Loss: 0.682556
+Train Epoch: 3 [12800/45385 (28%)]	Loss: 0.593156
+Train Epoch: 3 [16000/45385 (35%)]	Loss: 0.474296
+Train Epoch: 3 [19200/45385 (42%)]	Loss: 0.568404
+Train Epoch: 3 [22400/45385 (49%)]	Loss: 0.564296
+Train Epoch: 3 [25600/45385 (56%)]	Loss: 0.444255
+Train Epoch: 3 [28800/45385 (63%)]	Loss: 0.471321
+Train Epoch: 3 [32000/45385 (70%)]	Loss: 0.345142
+Train Epoch: 3 [35200/45385 (77%)]	Loss: 0.580176
+Train Epoch: 3 [38400/45385 (85%)]	Loss: 0.446631
+Train Epoch: 3 [41600/45385 (92%)]	Loss: 0.404961
+Train Epoch: 3 [44800/45385 (99%)]	Loss: 0.604662
+
+Train loss: 0.49923810163434124
+********************************
+**********Test Results**********
+Test on 19450 samples
+Test Accuracy: 76.35%
+
+Total training time: 166m 51s
