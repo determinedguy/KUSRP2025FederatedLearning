@@ -24,7 +24,7 @@ def args_parser():
     #parser.add_argument('--model', type=str, default='mlp', help='model name')
     # New Line
     parser.add_argument('--model', type=str, default='cnn',
-                    choices=['cnn', 'resnet18', 'resnet50', 'mobilenet_v2'],
+                    choices=['cnn', 'resnet18', 'resnet50', 'mobilenet_v2', 'shufflenet_v2'],
                     help='Model name')
     parser.add_argument('--kernel_num', type=int, default=9,
                         help='number of each kind of kernel')
