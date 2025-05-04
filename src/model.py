@@ -66,5 +66,9 @@ def get_model(model_name, num_classes):
         model = models.mobilenet_v2(pretrained=True)
         model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
         return model
+    elif model_name == 'shufflenet_v2':
+        model = models.shufflenet_v2_x0_5(pretrained=True)
+        model.fc = nn.Linear(model.fc.in_features, num_classes)
+        return model
     else:
         raise NotImplementedError(f"Model '{model_name}' is not supported.")
