@@ -12,8 +12,10 @@ from tensorboardX import SummaryWriter
 
 from options import args_parser
 from update import LocalUpdate, test_inference
-from model import CNN
+from model import CNN, get_model
 from utils import get_dataset, average_weights, exp_details
+from sampling import mnist_iid, dirichlet_non_iid, dirichlet_non_iid_unequal
+
 
 
 if __name__ == '__main__':
@@ -26,27 +28,50 @@ if __name__ == '__main__':
     args = args_parser()
     exp_details(args)
 
-    #args = args_parser()
+    args = args_parser()
     #args.iid = 0  # Set to Non-IID 
-    #exp_details(args)
-
-    #if args.gpu_id:
-    #    torch.cuda.set_device(args.gpu_id)
-    # device = 'cuda' if args.gpu else 'cpu'
-    device = 'cpu'
+    exp_details(args)
 
 
-    # load dataset and user groups
-    train_dataset, test_dataset, user_groups = get_dataset(args)
+    if args.gpu is not None:
+        print('visible gpus:', args.gpu)
+        os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu)
+        print('GPU is running:' ,os.environ['CUDA_VISIBLE_DEVICES'])
+        torch.cuda.set_device(args.gpu)
+        device = 'cuda'
+    else:
+        device = 'cpu'
 
+    # load datasets
+    train_dataset, test_dataset, num_classes = get_dataset(args.dataset_path, image_size=(224, 224))
+
+    if args.iid:
+        # IID 
+        user_groups = mnist_iid(train_dataset, args.num_users)
+
+    else:
+        # Non-IID bölme
+        if args.unequal:
+            #user_groups = mnist_noniid_unequal(train_dataset, args.num_users)
+            user_groups = dirichlet_non_iid_unequal(
+                dataset=train_dataset,
+                num_users=args.num_users,
+                alpha=args.alpha,
+                beta=args.beta,
+                seed=args.seed
+            )
+        else:
+            user_groups = dirichlet_non_iid(train_dataset, args.num_users, alpha=0.5)
+
+    args.num_classes = num_classes
     # BUILD MODEL
-    global_model = CNN(args=args)
+    global_model = get_model(args.model, num_classes=num_classes)
 
     # Set the model to train and send it to device.
     global_model.to(device)
     global_model.train()
     print(global_model)
-
+    
     # copy weights
     global_weights = global_model.state_dict()
 
@@ -76,7 +101,7 @@ if __name__ == '__main__':
             m = max(int(args.frac * args.num_users), 1)
             idxs_users = np.random.choice(range(args.num_users), m, replace=False)
             #idxs_users = np.random.choice(list(user_groups.keys()), m, replace=False)
-            
+
             for idx in idxs_users:
                 # Add these lines before the line causing the error
                 # print("user_groups keys:", user_groups.keys())
@@ -129,16 +154,26 @@ if __name__ == '__main__':
         log_file.write("|---- Avg Train Accuracy: {:.2f}%\n".format(100*train_accuracy[-1]))
         log_file.write("|---- Test Accuracy: {:.2f}%\n".format(100*test_acc))
 
+        total_seconds = time.time() - start_time
+        minutes, seconds = divmod(total_seconds, 60)
+        log_file.write('\n Total Run Time: {0:.0f} minutes {1:.2f} seconds\n'.format(minutes, seconds))
+
 
     # Saving the objects train_loss and train_accuracy:
     file_name = 'save/objects/{}_{}_{}_C[{}]_iid[{}]_E[{}]_B[{}].pkl'.\
         format(args.dataset, args.model, args.epochs, args.frac, args.iid,
                args.local_ep, args.local_bs)
 
+    # Ensure the directory exists
+    os.makedirs(os.path.dirname(file_name), exist_ok=True)
+
     with open(file_name, 'wb') as f:
         pickle.dump([train_loss, train_accuracy], f)
 
-    print('\n Total Run Time: {0:0.4f}'.format(time.time()-start_time))
+    total_seconds = time.time() - start_time
+    minutes, seconds = divmod(total_seconds, 60)
+    print('\n Total Run Time: {0:.0f} minutes {1:.2f} seconds'.format(minutes, seconds))
+    #print('\n Total Run Time: {0:0.4f}'.format(time.time()-start_time))
 
     # PLOTTING (optional)
     matplotlib.use('Agg')

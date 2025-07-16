@@ -25,7 +25,13 @@ class LocalUpdate(object):
         self.logger = logger
         self.trainloader, self.validloader, self.testloader = self.train_val_test(
             dataset, list(idxs))
-        self.device = 'cuda' if args.gpu else 'cpu'
+        #self.device = 'cuda' if args.gpu else 'cpu'
+       
+
+        # args.gpu: GPU indeksi (0,1,2…), GPU’ya çıkış için >=0 kontrolü
+        cuda_available = torch.cuda.is_available() and args.gpu >= 0
+        self.device = torch.device(f"cuda:{args.gpu}" if cuda_available else "cpu")
+        
         # Default criterion set to NLL loss function
         self.criterion = nn.CrossEntropyLoss().to(self.device)
 
@@ -41,17 +47,31 @@ class LocalUpdate(object):
 
         trainloader = DataLoader(DatasetSplit(dataset, idxs_train),
                                  batch_size=self.args.local_bs, shuffle=True)
-        validloader = DataLoader(DatasetSplit(dataset, idxs_val),
-                                 batch_size=int(len(idxs_val)/10), shuffle=False)
-        testloader = DataLoader(DatasetSplit(dataset, idxs_test),
-                                batch_size=int(len(idxs_test)/10), shuffle=False)
+
+        # batch_size’ın en az 1 olmasını garanti edelim
+        valid_bs = max(int(len(idxs_val)  / 10), 1)
+        test_bs  = max(int(len(idxs_test) / 10), 1)
+        validloader = DataLoader(
+            DatasetSplit(dataset, idxs_val),
+            batch_size=valid_bs, shuffle=False)
+        testloader = DataLoader(
+            DatasetSplit(dataset, idxs_test),
+            batch_size=test_bs, shuffle=False)      
+
+        #validloader = DataLoader(DatasetSplit(dataset, idxs_val),
+        #                         batch_size=int(len(idxs_val)/10), shuffle=False)
+        #testloader = DataLoader(DatasetSplit(dataset, idxs_test),
+        #                        batch_size=int(len(idxs_test)/10), shuffle=False)
         return trainloader, validloader, testloader
 
     def update_weights(self, model, global_round):
         # Set mode to train model
         model.train()
-        epoch_loss = []
+        
+        # Modeli de device’a taşı (CPU/GPU uyumu için)
+        model = model.to(self.device)
 
+        epoch_loss = []
         # Set optimizer for the local updates
         if self.args.optimizer == 'sgd':
             optimizer = torch.optim.SGD(model.parameters(), lr=self.args.lr,
