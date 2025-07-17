@@ -63,6 +63,11 @@ def get_model(model_name, num_classes):
         model.fc = nn.Linear(model.fc.in_features, num_classes)
         return model
     elif model_name == 'mobilenet_v2':
+        # UserWarning: The parameter 'pretrained' is deprecated since 0.13
+        # and may be removed in the future, please use 'weights' instead.
+        # UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13
+        # and may be removed in the future. The current behavior is equivalent to passing `weights=MobileNet_V2_Weights.IMAGENET1K_V1`.
+        # You can also use `weights=MobileNet_V2_Weights.DEFAULT` to get the most up-to-date weights.
         model = models.mobilenet_v2(pretrained=True)
         model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
         return model
