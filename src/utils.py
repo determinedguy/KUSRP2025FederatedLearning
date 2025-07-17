@@ -2,7 +2,7 @@
 import copy
 import torch
 from torchvision import datasets, transforms
-from sampling import mnist_iid, mnist_noniid, mnist_noniid_unequal
+from sampling import mnist_iid, dirichlet_non_iid, dirichlet_non_iid_unequal
 import os
 from options import args_parser
 
@@ -50,7 +50,7 @@ from options import args_parser
     
 '''
 
-def get_dataset(dataset_path, image_size=(224, 224)):
+def get_dataset(args, image_size=(224, 224)):
     """
     Loads train and test datasets from a directory structure like:
     dataset_path/
@@ -70,6 +70,7 @@ def get_dataset(dataset_path, image_size=(224, 224)):
     Returns:
         train_dataset, test_dataset, num_classes
     """
+    dataset_path = args.dataset_path
     train_dir = os.path.join(dataset_path, 'train')
     test_dir = os.path.join(dataset_path, 'test')
 
