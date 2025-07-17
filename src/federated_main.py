@@ -34,7 +34,10 @@ if __name__ == '__main__':
 
 
     if args.gpu is not None:
-        print('visible gpus:', args.gpu)
+        print('Is GPU (CUDA) available?', torch.cuda.is_available())
+        print('Name of available GPU:', torch.cuda.get_device_name(args.gpu))
+        print('Amount of available GPU:', torch.cuda.device_count())
+        print('GPU device to be used (0-based indexing):', args.gpu)
         os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu)
         print('GPU is running:' ,os.environ['CUDA_VISIBLE_DEVICES'])
         torch.cuda.set_device(args.gpu)

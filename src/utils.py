@@ -50,7 +50,7 @@ from options import args_parser
     
 '''
 
-def get_dataset(args, image_size=(224, 224)):
+def get_dataset(dataset_path, image_size=(224, 224)):
     """
     Loads train and test datasets from a directory structure like:
     dataset_path/
@@ -70,7 +70,7 @@ def get_dataset(args, image_size=(224, 224)):
     Returns:
         train_dataset, test_dataset, num_classes
     """
-    dataset_path = args.dataset_path
+    #dataset_path = args.dataset_path
     train_dir = os.path.join(dataset_path, 'train')
     test_dir = os.path.join(dataset_path, 'test')
 

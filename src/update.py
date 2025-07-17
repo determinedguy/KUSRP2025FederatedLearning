@@ -16,7 +16,7 @@ class DatasetSplit(Dataset):
 
     def __getitem__(self, item):
         image, label = self.dataset[self.idxs[item]]
-        return torch.tensor(image), torch.tensor(label)
+        return torch.tensor(image), torch.tensor(label) # UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
 
 
 class LocalUpdate(object):
