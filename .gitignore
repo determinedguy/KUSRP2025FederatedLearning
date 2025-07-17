@@ -1,3 +1,9 @@
 torchEnv/
 data/
 __pycache__/
+.lightning_studio/
+.vscode/
+.idea/
+.cursor-server
+.vscode-server
+.windsurf-server
