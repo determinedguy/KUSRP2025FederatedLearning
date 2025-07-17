@@ -28,11 +28,11 @@ To explore the full available parameters, please refer to the `options.py` file.
 #### (Centralized) Machine Learning
 
 ```bash
-python main.py --model mobilenet_v2 --dataset_path /teamspace/uploads/malimg_dataset --num_channels 1 --dataset malimg --gpu 0 --epoch 20
+python main.py --model mobilenet_v2 --dataset_path /teamspace/studios/this_studio/malnet_resized_32x256 --num_channels 1 --dataset malimg --gpu 0 --epoch 20
 ```
 
 #### Federated Learning
 
 ```bash
-python federated_main.py --model mobilenet_v2 --dataset_path /teamspace/uploads/malimg_dataset --num_channels 1 --dataset malimg --gpu 0 --epoch 20 --local_ep 3 --num_users 50 --iid 0
+python federated_main.py --model mobilenet_v2 --dataset_path /teamspace/studios/this_studio/malnet_resized_32x256 --num_channels 1 --dataset malimg --gpu 0 --epoch 20 --local_ep 3 --num_users 50 --iid 1
 ```

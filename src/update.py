@@ -16,7 +16,9 @@ class DatasetSplit(Dataset):
 
     def __getitem__(self, item):
         image, label = self.dataset[self.idxs[item]]
-        return torch.tensor(image), torch.tensor(label) # UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+        # UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone()
+        # or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+        return torch.tensor(image), torch.tensor(label)
 
 
 class LocalUpdate(object):
@@ -27,7 +29,6 @@ class LocalUpdate(object):
             dataset, list(idxs))
         #self.device = 'cuda' if args.gpu else 'cpu'
        
-
         # args.gpu: GPU indeksi (0,1,2…), GPU’ya çıkış için >=0 kontrolü
         cuda_available = torch.cuda.is_available() and args.gpu >= 0
         self.device = torch.device(f"cuda:{args.gpu}" if cuda_available else "cpu")
