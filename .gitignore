@@ -7,4 +7,5 @@ __pycache__/
 .cursor-server
 .vscode-server
 .windsurf-server
+.viminfo
 src/logs/
