@@ -136,6 +136,7 @@ def dirichlet_non_iid(dataset, num_users: int, alpha: float):
                 dict_users[i].update(idx_k[start:start+c])
             start += c
 
+
     return dict_users
 
 def dirichlet_non_iid_unequal(
