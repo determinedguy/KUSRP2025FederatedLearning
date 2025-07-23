@@ -63,18 +63,18 @@ def args_parser():
                         non-i.i.d setting (use 0 for equal splits)')
     parser.add_argument('--stopping_rounds', type=int, default=10,
                         help='rounds of early stopping')
-    ### New alpha and beta arguments
+    ### New alpha and beta arguments for Dirichlet
     parser.add_argument(
         '--alpha',
         type=float,
         default=0.5,
-        help='Dirichlet α for class‐skew (smaller ⇒ daha skewed)'
+        help='Dirichlet α for class‐skew (the smaller the value, the more skewed)'
         )
     parser.add_argument(
         '--beta',
         type=float,
         default=0.5,
-        help='Dirichlet β for size‐skew (smaller ⇒ daha unequal sizes)'
+        help='Dirichlet β for size‐skew (the smaller the value, the aha unequal sizes)'
         )
 
     ### Important arguments for Experiment !!!!
