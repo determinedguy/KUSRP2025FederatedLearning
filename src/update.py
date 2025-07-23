@@ -41,23 +41,54 @@ class LocalUpdate(object):
         Returns train, validation and test dataloaders for a given dataset
         and user indexes.
         """
-        # split indexes for train, validation, and test (80, 10, 10)
-        idxs_train = idxs[:int(0.8*len(idxs))]
-        idxs_val = idxs[int(0.8*len(idxs)):int(0.9*len(idxs))]
-        idxs_test = idxs[int(0.9*len(idxs)):]
+        # split indexes for train (80%), validation (10%), test (10%),
+        # but ensure train has at least 1 sample
+        n = len(idxs)
+        # train’de en az 1 örnek
+        n_train = max(int(0.8 * n), 1) if n > 0 else 0
+        # val için %10’dan floor; test gerisi
+        n_val = int(0.1 * n)
+        train_end = n_train
+        val_end = train_end + n_val
+        idxs_train = idxs[:train_end]
+        idxs_val   = idxs[train_end:val_end]
+        idxs_test  = idxs[val_end:]
 
-        trainloader = DataLoader(DatasetSplit(dataset, idxs_train),
-                                 batch_size=self.args.local_bs, shuffle=True)
+
+        #trainloader = DataLoader(DatasetSplit(dataset, idxs_train),
+        #                         batch_size=self.args.local_bs, shuffle=True)
+
+        trainloader = DataLoader(
+            DatasetSplit(dataset, idxs_train),
+            batch_size=self.args.local_bs,
+            shuffle=True
+        )
+        
+        # validation ve test için batch_size ≥1 kuralı (dataset uzunluğu 0 olsa da sampler hata vermez)
+        valid_bs = max(int(len(idxs_val)  / 10), 1)
+        test_bs  = max(int(len(idxs_test) / 10), 1)
+        validloader = DataLoader(
+            DatasetSplit(dataset, idxs_val),
+            batch_size=valid_bs,
+            shuffle=False
+        )
+        testloader = DataLoader(
+            DatasetSplit(dataset, idxs_test),
+            batch_size=test_bs,
+            shuffle=False
+        )
+
+
 
         # batch_size’ın en az 1 olmasını garanti edelim
-        valid_bs = max(int(len(idxs_val)  / 10), 1)
+        '''valid_bs = max(int(len(idxs_val)  / 10), 1)
         test_bs  = max(int(len(idxs_test) / 10), 1)
         validloader = DataLoader(
             DatasetSplit(dataset, idxs_val),
             batch_size=valid_bs, shuffle=False)
         testloader = DataLoader(
             DatasetSplit(dataset, idxs_test),
-            batch_size=test_bs, shuffle=False)      
+            batch_size=test_bs, shuffle=False)  '''    
 
         #validloader = DataLoader(DatasetSplit(dataset, idxs_val),
         #                         batch_size=int(len(idxs_val)/10), shuffle=False)
@@ -123,6 +154,10 @@ class LocalUpdate(object):
             pred_labels = pred_labels.view(-1)
             correct += torch.sum(torch.eq(pred_labels, labels)).item()
             total += len(labels)
+        
+        # Eğer hiç örnek yoksa, sıfıra bölme hatasını önlemek için direkt dön
+        if total == 0:
+            return 0.0, 0.0
 
         accuracy = correct/total
         return accuracy, loss
