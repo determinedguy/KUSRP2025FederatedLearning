@@ -12,16 +12,18 @@ There are two files inside the project: `main.py` for the (centralized) machine 
 
 | Parameter    | Case               | Description                                                                                                                       | Example                                          |
 |--------------|--------------------|-----------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
-| model        | All                | Defines the model to be used when running the program.<br>Available options: cnn, resnet18, resnet50, mobilenet_v2, shufflenet_v2 | --model mobilenet_v2                             |
-| dataset_path | All                | Defines the dataset path to be used by the program.                                                                               | --dataset_path /teamspace/uploads/malimg_dataset |
-| num_channels | All                | Defines the number of channels to be used by the model.<br>Example: 1 for grayscale and 3 for RGB.                                | --num_channels 1                                 |
-| dataset      | All                | Defines the name of the used dataset.                                                                                             | --dataset mallimg                                |
-| gpu          | All (Optional)     | The program uses CPU by default. Add this option to use GPU.                                                                      | --gpu 0                                          |
-| iid          | Federated Learning | Defines the usage of IID in the data. Use 0 or 1 to define the value.                                                             | --iid 0                                          |
-| epoch        | All                | Defines the amount of epoch (or communication round) to be executed.                                                              | --epoch 20                                       |
-| local_ep     | Federated Learning | Defines the amount of local epoch to be executed.                                                                                 | --local_ep 1                                     |
-| num_users    | Federated Learning | Defines the amount of clients (users) for the training.                                                                           | --num_users 50                                   |
-| unequal      | Federated Learning | Defines the split of the data (balanced/imbalanced). Use 0 or 1 to define the value.                                              | --unequal 1                                      |
+| model        | All                           | Defines the model to be used when running the program.<br>Available options: cnn, resnet18, resnet50, mobilenet_v2, shufflenet_v2 | --model mobilenet_v2                             |
+| dataset_path | All                           | Defines the dataset path to be used by the program.                                                                               | --dataset_path /teamspace/uploads/malimg_dataset |
+| num_channels | All                           | Defines the number of channels to be used by the model.<br>Example: 1 for grayscale and 3 for RGB.                                | --num_channels 1                                 |
+| dataset      | All                           | Defines the name of the used dataset.                                                                                             | --dataset mallimg                                |
+| gpu          | All (Optional)                | The program uses CPU by default. Add this option to use GPU.                                                                      | --gpu 0                                          |
+| iid          | Federated Learning            | Defines the usage of IID in the data. Use 0 or 1 to define the value.                                                             | --iid 0                                          |
+| epoch        | All                           | Defines the amount of epoch (or communication round) to be executed.                                                              | --epoch 20                                       |
+| local_ep     | Federated Learning            | Defines the amount of local epoch to be executed.                                                                                 | --local_ep 1                                     |
+| num_users    | Federated Learning            | Defines the amount of clients (users) for the training.                                                                           | --num_users 50                                   |
+| unequal      | Federated Learning            | Defines the split of the data (balanced/imbalanced). Use 0 or 1 to define the value.                                              | --unequal 1                                      |
+| alpha        | Federated Learning (Optional) | Defines the alpha value used for the Dirichlet distribution for data partitioning. If unspecified, 0.5 is used as the default value.                                           | --alpha 0.1                                      |
+| beta         | Federated Learning (Optional) | Defines the alpha value used for the Dirichlet distribution for data partitioning. If unspecified, 0.5 is used as the default value.                                           | --beta 0.5                                       |
 
 To explore the full available parameters, please refer to the `options.py` file.
 
