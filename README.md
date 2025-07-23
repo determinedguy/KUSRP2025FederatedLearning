@@ -1,5 +1,7 @@
 # Federated Learning
 
+> Part of the project of Privacy-Preserving and Attack-Resilient Federated Learning, under the 2025 Koç University Summer Research Program (KUSRP).
+
 ## Usage
 
 Before running, make sure to go inside the `src` folder: `cd src`
