@@ -7,3 +7,4 @@ __pycache__/
 .cursor-server
 .vscode-server
 .windsurf-server
+src/logs/
