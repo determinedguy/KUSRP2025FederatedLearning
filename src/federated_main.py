@@ -64,7 +64,7 @@ if __name__ == '__main__':
                 seed=args.seed
             )
         else:
-            user_groups = dirichlet_non_iid(train_dataset, args.num_users, alpha=5)
+            user_groups = dirichlet_non_iid(train_dataset, args.num_users, args.alpha)
 
     args.num_classes = num_classes
     # BUILD MODEL

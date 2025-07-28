@@ -29,6 +29,7 @@ class LocalUpdate(object):
             dataset, list(idxs))
         #self.device = 'cuda' if args.gpu else 'cpu'
        
+
         # args.gpu: GPU indeksi (0,1,2…), GPU’ya çıkış için >=0 kontrolü
         cuda_available = torch.cuda.is_available() and args.gpu >= 0
         self.device = torch.device(f"cuda:{args.gpu}" if cuda_available else "cpu")
@@ -41,6 +42,13 @@ class LocalUpdate(object):
         Returns train, validation and test dataloaders for a given dataset
         and user indexes.
         """
+        # --- boş idxs gelirse, bir örnekle dolduralım (fallback) ---
+        if len(idxs) == 0:
+            import numpy as _np
+            # rastgele bir sample idx’si seç
+            idxs = [int(_np.random.randint(len(dataset)))]
+
+
         # split indexes for train (80%), validation (10%), test (10%),
         # but ensure train has at least 1 sample
         n = len(idxs)
