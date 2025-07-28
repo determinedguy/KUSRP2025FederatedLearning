@@ -9,3 +9,4 @@ __pycache__/
 .windsurf-server
 .viminfo
 src/logs/
+src/save/
